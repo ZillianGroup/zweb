@@ -1,6 +1,6 @@
-# Running ILLA cli Setup
+# Running ZWEB cli Setup
 
-This document explains how you can setup a development environment for `illa` cli.
+This document explains how you can setup a development environment for `zweb` cli.
 
 ## Pre-requisites
 
@@ -12,8 +12,8 @@ This document explains how you can setup a development environment for `illa` cl
 1. Clone the repository
 
 ```bash
-git clone https://github.com/illacloud/illa.git
-cd illa
+git clone https://github.com/zilliangroup/zweb.git
+cd zweb
 ```
 
 2. Check the default Docker socket
@@ -30,5 +30,5 @@ cargo run -- [subcommand] --help
 
 ## Need Assistance
 
-- If you are unable to resolve any issue while doing the setup, please feel free to ask questions on our [Discord channel](https://discord.com/invite/illacloud) or initiate a [Github discussion](https://github.com/orgs/illacloud/discussions). We'll be happy to help you.
+- If you are unable to resolve any issue while doing the setup, please feel free to ask questions on our [Discord channel](https://discord.com/invite/zilliangroup) or initiate a [Github discussion](https://github.com/orgs/zilliangroup/discussions). We'll be happy to help you.
 - In case you notice any discrepancy, please raise an issue on Github.

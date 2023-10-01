@@ -6,7 +6,7 @@ use indicatif::{ProgressBar, ProgressStyle};
 use std::thread;
 use std::time::Duration;
 
-// Executes the `illa doctor` command to
+// Executes the `zweb doctor` command to
 // check the prerequisites of self hosting
 #[derive(Debug, Args)]
 /// Checks the prerequisites of self-host
@@ -42,7 +42,7 @@ impl Cmd {
                 String::from("Docker version"),
                 version.version.unwrap(),
                 ui::emoji::SPARKLE,
-                style("Success! The minimum requirement for deploying ILLA has been satisfied. Self-Host your ILLA Builder by command [illa deploy].").green(),
+                style("Success! The minimum requirement for deploying ZWEB has been satisfied. Self-Host your ZWEB Builder by command [zweb deploy].").green(),
             )),
             Err(e) => pb.finish_with_message(format!(
                 "{} {}\n{} {}",

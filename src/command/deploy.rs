@@ -17,37 +17,37 @@ use std::time::{Duration, Instant};
 use std::{env, process, string};
 use uuid::Uuid;
 
-const ILLA_BUILDER_IMAGE: &str = "illasoft/illa-builder";
-const ILLA_BUILDER_VERSION: &str = "latest";
+const ZWEB_BUILDER_IMAGE: &str = "zilliangroup/zweb-builder";
+const ZWEB_BUILDER_VERSION: &str = "latest";
 
-// Executes the `illa deploy` command to
-// deploy your ILLA Builder
+// Executes the `zweb deploy` command to
+// deploy your ZWEB Builder
 #[derive(Debug, Args)]
 #[clap(group(
     ArgGroup::new("install")
         .required(true)
         .args(&["self_host", "cloud"]),
 ))]
-/// Deploy the ILLA Builder
+/// Deploy the ZWEB Builder
 pub struct Cmd {
     /// Self-hosted installation
     #[clap(short = 'S', long = "self", action = SetTrue)]
     self_host: bool,
 
-    /// ILLA Cloud installation
+    /// ZWEB Cloud installation
     #[clap(short = 'C', long = "cloud", action = SetTrue)]
     cloud: bool,
 
-    /// Set the version of ILLA Builder [default: latest]
+    /// Set the version of ZWEB Builder [default: latest]
     #[clap(short = 'V', long = "builder-version", value_name = "X.Y.Z")]
     builder_version: Option<String>,
 
-    /// The port on which you want ILLA Builder to run
+    /// The port on which you want ZWEB Builder to run
     #[clap(short = 'p', long = "port", default_value = "80")]
     port: u16,
 
-    /// The mount path for the ILLA Builder
-    #[clap(short = 'm', long = "mount", value_name = "/TEMP/DIR/ILLA-BUILDER")]
+    /// The mount path for the ZWEB Builder
+    #[clap(short = 'm', long = "mount", value_name = "/TEMP/DIR/ZWEB-BUILDER")]
     mount_path: Option<String>,
 }
 
@@ -100,9 +100,9 @@ async fn deploy_self_host(
     pb_download.set_style(progress_style.clone());
     let finish_spinner_style = ProgressStyle::with_template("{wide_msg}").unwrap();
 
-    let default_version = ILLA_BUILDER_VERSION.to_owned();
+    let default_version = ZWEB_BUILDER_VERSION.to_owned();
     let builder_version = version.unwrap_or(&default_version);
-    let builder_image = ILLA_BUILDER_IMAGE.to_owned() + ":" + builder_version;
+    let builder_image = ZWEB_BUILDER_IMAGE.to_owned() + ":" + builder_version;
 
     let default_mount_path = utils::get_default_mount();
     let mount_path = mount_path.unwrap_or(&default_mount_path);
@@ -144,14 +144,14 @@ async fn deploy_self_host(
 
     let pg_pwd = Uuid::new_v4();
     let builder_env = vec![
-        "ILLA_SERVER_MODE=release".to_string(),
-        "ILLA_DEPLOY_MODE=self-host".to_string(),
+        "ZWEB_SERVER_MODE=release".to_string(),
+        "ZWEB_DEPLOY_MODE=self-host".to_string(),
         format!("POSTGRES_PASSWORD={pg_pwd}"),
     ];
     let mut builder_labels = HashMap::new();
     builder_labels.insert(
         "maintainer".to_string(),
-        "opensource@illasoft.com".to_string(),
+        "opensource@zilliangroup.com".to_string(),
     );
     builder_labels.insert("license".to_string(), "Apache-2.0".to_string());
     let mut builder_port_bindings = HashMap::new();
@@ -165,7 +165,7 @@ async fn deploy_self_host(
 
     let local_dir = utils::local_bind_init(mount_path);
     let mounts = vec![Mount {
-        target: Some("/opt/illa/database".to_string()),
+        target: Some("/opt/zweb/database".to_string()),
         source: Some(local_dir),
         typ: Some(MountTypeEnum::BIND),
         read_only: Some(false),
@@ -187,14 +187,14 @@ async fn deploy_self_host(
     let create_builder = &_docker
         .create_container(
             Some(CreateContainerOptions {
-                name: "illa_builder",
+                name: "zweb_builder",
             }),
             builder_config,
         )
         .await;
 
     let start_builder = &_docker
-        .start_container("illa_builder", None::<StartContainerOptions<String>>)
+        .start_container("zweb_builder", None::<StartContainerOptions<String>>)
         .await;
 
     match (create_builder.is_err(), start_builder.is_err()) {
@@ -203,7 +203,7 @@ async fn deploy_self_host(
             pb_deploy.finish_with_message(format!(
                 "{} {} {}",
                 ui::emoji::FAIL,
-                String::from("Create ILLA Builder error:"),
+                String::from("Create ZWEB Builder error:"),
                 style(create_builder.as_ref().err().unwrap()).red(),
             ));
             process::exit(1);
@@ -213,7 +213,7 @@ async fn deploy_self_host(
             pb_deploy.finish_with_message(format!(
                 "{} {} {}",
                 ui::emoji::FAIL,
-                String::from("Start ILLA Builder error:"),
+                String::from("Start ZWEB Builder error:"),
                 style(start_builder.as_ref().err().unwrap()).red(),
             ));
             process::exit(1);
@@ -223,7 +223,7 @@ async fn deploy_self_host(
             pb_deploy.finish_with_message(format!(
                 "{} {} {}",
                 ui::emoji::SPARKLE,
-                String::from("ILLA Builder started, please visit"),
+                String::from("ZWEB Builder started, please visit"),
                 style(format!("{}:{}", "http://localhost", port)).blue(),
             ));
             process::exit(0);

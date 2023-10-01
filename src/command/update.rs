@@ -19,21 +19,21 @@ use std::{
     time::{Duration, Instant},
 };
 
-// Executes the `illa update` command to
-// update the ILLA Builder with the latest docker image
+// Executes the `zweb update` command to
+// update the ZWEB Builder with the latest docker image
 #[derive(Debug, Args)]
 #[clap(group(
     ArgGroup::new("update")
         .required(true)
         .args(&["self_host", "cloud"]),
 ))]
-/// Update ILLA Builder
+/// Update ZWEB Builder
 pub struct Cmd {
-    /// Update Self-hosted ILLA Builder
+    /// Update Self-hosted ZWEB Builder
     #[clap(short = 'S', long = "self", action = SetTrue)]
     self_host: bool,
 
-    /// Update ILLA Builder on ILLA Cloud
+    /// Update ZWEB Builder on ZWEB Cloud
     #[clap(short = 'C', long = "cloud", action = SetTrue)]
     cloud: bool,
 }
@@ -56,7 +56,7 @@ impl Cmd {
 
 async fn update_local(progress_style: ProgressStyle) -> Result {
     println!(
-        "{} Updating the ILLA Builder with the latest docker image...",
+        "{} Updating the ZWEB Builder with the latest docker image...",
         ui::emoji::BUILD
     );
 
@@ -84,13 +84,13 @@ async fn update_local(progress_style: ProgressStyle) -> Result {
     }
     let inspect_options = Some(InspectContainerOptions { size: false });
     let builder_detail = &_docker
-        .inspect_container("illa_builder", inspect_options)
+        .inspect_container("zweb_builder", inspect_options)
         .await;
     if builder_detail.is_err() {
         println!(
             "{} {}\n",
             ui::emoji::FAIL,
-            String::from("No ILLA Builder found."),
+            String::from("No ZWEB Builder found."),
         );
         process::exit(1);
     }
@@ -109,14 +109,14 @@ async fn update_local(progress_style: ProgressStyle) -> Result {
         .clone()
         .unwrap();
     let mounts = vec![Mount {
-        target: Some("/opt/illa/database".to_string()),
+        target: Some("/opt/zweb/database".to_string()),
         source: Some(builder_mount_cp[0].source.clone().unwrap()),
         typ: Some(MountTypeEnum::BIND),
         read_only: Some(false),
         ..Default::default()
     }];
     let mut builder_labels = HashMap::new();
-    builder_labels.insert("maintainer", "opensource@illasoft.com");
+    builder_labels.insert("maintainer", "opensource@zilliangroup.com");
     builder_labels.insert("license", "Apache-2.0");
     let builder_port_bindings = builder_info
         .host_config
@@ -136,7 +136,7 @@ async fn update_local(progress_style: ProgressStyle) -> Result {
     let pb_rm = m.add(ProgressBar::new(0));
     pb_rm.set_style(progress_style.clone());
     for _ in 0..10 {
-        pb_rm.set_message("Removing ILLA Builder...");
+        pb_rm.set_message("Removing ZWEB Builder...");
         pb_rm.inc(1);
         thread::sleep(Duration::from_millis(200));
     }
@@ -144,12 +144,12 @@ async fn update_local(progress_style: ProgressStyle) -> Result {
         force: true,
         ..Default::default()
     });
-    let stop_builder = _docker.remove_container("illa_builder", rm_options).await;
+    let stop_builder = _docker.remove_container("zweb_builder", rm_options).await;
     if stop_builder.is_err() {
         println!(
             "{} {} {}",
             ui::emoji::FAIL,
-            String::from("Try to remove ILLA Builder error:"),
+            String::from("Try to remove ZWEB Builder error:"),
             style(stop_builder.err().unwrap()).red(),
         );
         process::exit(1);
@@ -158,12 +158,12 @@ async fn update_local(progress_style: ProgressStyle) -> Result {
     pb_rm.finish_with_message(format!(
         "{} {}",
         ui::emoji::SUCCESS,
-        style("Successfully remove the old ILLA Builder."),
+        style("Successfully remove the old ZWEB Builder."),
     ));
 
     let pb_download = m.add(ProgressBar::new(0));
     pb_download.set_style(progress_style.clone());
-    let builder_image = "illasoft/illa-builder:latest";
+    let builder_image = "zilliangroup/zweb-builder:latest";
     let download_started = Instant::now();
     let stream_list = &mut _docker.create_image(
         Some(CreateImageOptions {
@@ -212,14 +212,14 @@ async fn update_local(progress_style: ProgressStyle) -> Result {
     let create_builder = &_docker
         .create_container(
             Some(CreateContainerOptions {
-                name: "illa_builder",
+                name: "zweb_builder",
             }),
             builder_config,
         )
         .await;
 
     let start_builder = &_docker
-        .start_container("illa_builder", None::<StartContainerOptions<String>>)
+        .start_container("zweb_builder", None::<StartContainerOptions<String>>)
         .await;
 
     match (create_builder.is_err(), start_builder.is_err()) {
@@ -228,7 +228,7 @@ async fn update_local(progress_style: ProgressStyle) -> Result {
             pb_deploy.finish_with_message(format!(
                 "{} {} {}",
                 ui::emoji::FAIL,
-                String::from("Create ILLA Builder error:"),
+                String::from("Create ZWEB Builder error:"),
                 style(create_builder.as_ref().err().unwrap()).red(),
             ));
             process::exit(1);
@@ -238,7 +238,7 @@ async fn update_local(progress_style: ProgressStyle) -> Result {
             pb_deploy.finish_with_message(format!(
                 "{} {} {}",
                 ui::emoji::FAIL,
-                String::from("Start ILLA Builder error:"),
+                String::from("Start ZWEB Builder error:"),
                 style(start_builder.as_ref().err().unwrap()).red(),
             ));
             process::exit(1);
@@ -248,7 +248,7 @@ async fn update_local(progress_style: ProgressStyle) -> Result {
             pb_deploy.finish_with_message(format!(
                 "{} {} {}",
                 ui::emoji::SPARKLE,
-                String::from("ILLA Builder started, please visit"),
+                String::from("ZWEB Builder started, please visit"),
                 style(format!(
                     "{}:{}",
                     "http://localhost",

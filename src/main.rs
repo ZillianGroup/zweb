@@ -1,13 +1,13 @@
 #![allow(unused)]
 use clap::{Parser, Subcommand};
-use illa::{
+use zweb::{
     command::{deploy, doctor, list, remove, restart, stop, update},
     result::Result,
 };
 use std::process;
 
 #[derive(Debug, Parser)]
-#[clap(name = "illa")]
+#[clap(name = "zweb")]
 #[clap(version)]
 /// Deploy a modern low-code platform in 5 Seconds!
 struct Cli {

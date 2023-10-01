@@ -1,22 +1,22 @@
-# ILLA cli subcommands
+# ZWEB cli subcommands
 
 ## Deploy
 
 Command name: `deploy`
 
-Use: Deploy a new ILLA Builder Docker instance with the given name `illa_builder`.
+Use: Deploy a new ZWEB Builder Docker instance with the given name `zweb_builder`.
 
 Options:
 
 - `-S, --self`: Self-hosted installation
 
-- `-C, --cloud`: ILLA Cloud installation
+- `-C, --cloud`: ZWEB Cloud installation
 
-- `-V, --builder-version <X.Y.Z>`: Set the version of ILLA Builder. The default value is `latest`.
+- `-V, --builder-version <X.Y.Z>`: Set the version of ZWEB Builder. The default value is `latest`.
 
-- `-p, --port <PORT>`: Set the port of ILLA Builder. The default value is `80`.
+- `-p, --port <PORT>`: Set the port of ZWEB Builder. The default value is `80`.
 
-- `-m, --mount <PATH>`: The mount path for the ILLA Builder. The default value is `/var/lib/illa`.
+- `-m, --mount <PATH>`: The mount path for the ZWEB Builder. The default value is `/var/lib/zweb`.
 
 - `-h, --help`: Prints help information
 
@@ -24,13 +24,13 @@ Options:
 
 Command name: `stop`
 
-Use: Stop one or more ILLA Builder.
+Use: Stop one or more ZWEB Builder.
 
 Options:
 
-- `-S, --self`: Stop Self-hosted ILLA Builder
+- `-S, --self`: Stop Self-hosted ZWEB Builder
 
-- `-C, --cloud`: Stop ILLA Builder on ILLA Cloud
+- `-C, --cloud`: Stop ZWEB Builder on ZWEB Cloud
 
 - `-h, --help`: Prints help information
 
@@ -38,13 +38,13 @@ Options:
 
 Command name: `restart`
 
-Use: Restart one or more ILLA Builder.
+Use: Restart one or more ZWEB Builder.
 
 Options:
 
-- `-S, --self`: Restart Self-hosted ILLA Builder
+- `-S, --self`: Restart Self-hosted ZWEB Builder
 
-- `-C, --cloud`: Restart ILLA Builder on ILLA Cloud
+- `-C, --cloud`: Restart ZWEB Builder on ZWEB Cloud
 
 - `-h, --help`: Prints help information
 
@@ -52,17 +52,17 @@ Options:
 
 Command name: `remove`
 
-Use: Remove one or more ILLA Builder.
+Use: Remove one or more ZWEB Builder.
 
 Options:
 
-- `-S, --self`: Remove Self-hosted ILLA Builder
+- `-S, --self`: Remove Self-hosted ZWEB Builder
 
-- `-C, --cloud`: Remove ILLA Builder on ILLA Cloud
+- `-C, --cloud`: Remove ZWEB Builder on ZWEB Cloud
 
-- `-f, --force`: Force the removal of a ILLA Builder Docker instance (uses SIGKILL)
+- `-f, --force`: Force the removal of a ZWEB Builder Docker instance (uses SIGKILL)
 
-- `-d, --data`: Remove the persistent data of ILLA Builder
+- `-d, --data`: Remove the persistent data of ZWEB Builder
 
 - `-h, --help`: Prints help information
 
@@ -70,13 +70,13 @@ Options:
 
 Command name: `update`
 
-Use: Update ILLA Builder to latest version.
+Use: Update ZWEB Builder to latest version.
 
 Options:
 
-- `-S, --self`: Update Self-hosted ILLA Builder
+- `-S, --self`: Update Self-hosted ZWEB Builder
 
-- `-C, --cloud`: Update ILLA Builder on ILLA Cloud
+- `-C, --cloud`: Update ZWEB Builder on ZWEB Cloud
 
 - `-h, --help`: Prints help information
 
@@ -84,15 +84,15 @@ Options:
 
 Command name: `list`
 
-Use: List ILLA Builder.
+Use: List ZWEB Builder.
 
 Options:
 
-- `-A, --all`: All ILLA Builder
+- `-A, --all`: All ZWEB Builder
 
-- `-S, --self`: List Self-hosted ILLA Builder
+- `-S, --self`: List Self-hosted ZWEB Builder
 
-- `-C, --cloud`: List ILLA Builder on ILLA Cloud
+- `-C, --cloud`: List ZWEB Builder on ZWEB Cloud
 
 - `-h, --help`: Prints help information
 

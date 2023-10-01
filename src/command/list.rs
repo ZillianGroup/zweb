@@ -10,25 +10,25 @@ use prettytable::{Cell, Row, Table};
 use std::collections::HashMap;
 use std::process;
 
-// Executes the `illa list` command to
-// get ILLA Builder info
+// Executes the `zweb list` command to
+// get ZWEB Builder info
 #[derive(Debug, Args)]
 #[clap(group(
     ArgGroup::new("list")
         .required(true)
         .args(&["all", "self_host", "cloud"]),
 ))]
-/// List ILLA Builder
+/// List ZWEB Builder
 pub struct Cmd {
-    /// All ILLA Builder
+    /// All ZWEB Builder
     #[clap(short = 'A', long = "all", action = SetTrue)]
     all: bool,
 
-    /// Self-hosted ILLA Builder
+    /// Self-hosted ZWEB Builder
     #[clap(short = 'S', long = "self", action = SetTrue)]
     self_host: bool,
 
-    /// ILLA Builder on ILLA Cloud
+    /// ZWEB Builder on ZWEB Cloud
     #[clap(short = 'C', long = "cloud", action = SetTrue)]
     cloud: bool,
 }
@@ -63,7 +63,7 @@ async fn list_local() -> Result {
     }
 
     let mut ls_containers_filters = HashMap::new();
-    ls_containers_filters.insert("name".to_string(), vec!["illa_builder".to_string()]);
+    ls_containers_filters.insert("name".to_string(), vec!["zweb_builder".to_string()]);
     let builders = &_docker
         .list_containers(Some(ListContainersOptions::<String> {
             all: true,

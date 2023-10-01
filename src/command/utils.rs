@@ -37,7 +37,7 @@ pub fn local_bind_delete(path: String) -> Result {
 
 pub fn get_default_mount() -> String {
     let tmp_dir = dirs::home_dir().unwrap();
-    let temp_dir = tmp_dir.join(".illa-builder");
+    let temp_dir = tmp_dir.join(".zweb-builder");
 
     temp_dir.display().to_string()
 }

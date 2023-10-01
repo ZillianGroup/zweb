@@ -1,20 +1,20 @@
 [package]
-name = "illa"
+name = "zweb"
 version = "1.2.14"
-authors = ["ILLA <opensource@illasoft.com>"]
+authors = ["ZWEB <opensource@zilliangroup.com>"]
 edition = "2021"
 
 description = "Deploy a modern low-code platform in 5 Seconds!"
 readme = "README.md"
 keywords = ["terminal-app", "low-code", "deployment"]
 
-homepage = "https://www.illacloud.com/docs/illa-cli"
-repository = "https://github.com/illacloud/illa"
+homepage = "https://www.zilliangroup.com/docs/zweb-cli"
+repository = "https://github.com/zilliangroup/zweb"
 
 license = "Apache-2.0"
 
 [[bin]]
-name = "illa"
+name = "zweb"
 path = "src/main.rs"
 doc = false
 

@@ -5,21 +5,21 @@ use clap::{ArgAction::SetTrue, ArgGroup, Args};
 use console::style;
 use std::process;
 
-// Executes the `illa stop` command to
-// stop one or more ILLA Builder
+// Executes the `zweb stop` command to
+// stop one or more ZWEB Builder
 #[derive(Debug, Args)]
 #[clap(group(
     ArgGroup::new("stop")
         .required(true)
         .args(&["self_host", "cloud"]),
 ))]
-/// Stop one or more ILLA Builder
+/// Stop one or more ZWEB Builder
 pub struct Cmd {
-    /// Stop Self-hosted ILLA Builder
+    /// Stop Self-hosted ZWEB Builder
     #[clap(short = 'S', long = "self", action = SetTrue)]
     self_host: bool,
 
-    /// Stop ILLA Builder on ILLA Cloud
+    /// Stop ZWEB Builder on ZWEB Cloud
     #[clap(short = 'C', long = "cloud", action = SetTrue)]
     cloud: bool,
 }
@@ -37,7 +37,7 @@ impl Cmd {
 }
 
 async fn stop_local() -> Result {
-    println!("{} Trying to stop the ILLA Builder...", ui::emoji::BUILD);
+    println!("{} Trying to stop the ZWEB Builder...", ui::emoji::BUILD);
 
     let _docker = Docker::connect_with_local_defaults().unwrap();
     if (_docker.ping().await).is_err() {
@@ -52,12 +52,12 @@ async fn stop_local() -> Result {
     }
 
     let options = Some(StopContainerOptions { t: 30 });
-    let stop_builder = _docker.stop_container("illa_builder", options).await;
+    let stop_builder = _docker.stop_container("zweb_builder", options).await;
     if stop_builder.is_err() {
         println!(
             "{} {} {}",
             ui::emoji::FAIL,
-            String::from("Try to stop ILLA Builder error:"),
+            String::from("Try to stop ZWEB Builder error:"),
             style(stop_builder.err().unwrap()).red(),
         );
         process::exit(1);
@@ -66,7 +66,7 @@ async fn stop_local() -> Result {
     println!(
         "{} {}",
         ui::emoji::SUCCESS,
-        style("Successfully stop the ILLA Builder.").green(),
+        style("Successfully stop the ZWEB Builder.").green(),
     );
 
     Ok(())
